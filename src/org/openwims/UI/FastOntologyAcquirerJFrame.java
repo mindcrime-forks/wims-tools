@@ -7,6 +7,9 @@ package org.openwims.UI;
 import com.jesseenglish.swingftfy.extensions.FNode;
 import com.jesseenglish.swingftfy.extensions.FTree;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -241,6 +244,7 @@ public class FastOntologyAcquirerJFrame extends javax.swing.JFrame {
             Statement stmt = conn.createStatement();
             stmt.execute(query);
             System.out.println(query);
+            log(query);
             stmt.close();
         } catch (Exception err) {
             err.printStackTrace();
@@ -249,6 +253,20 @@ public class FastOntologyAcquirerJFrame extends javax.swing.JFrame {
         history(this.cursense, concept);
         
         refresh();
+    }
+    
+    public void log(String query) throws Exception {
+        File file = new File("/Users/jesse/Desktop/ontology.map.sql");
+ 
+        // if file doesnt exists, then create it
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+ 
+        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(query);
+        bw.close();
     }
     
     public void history(String sense, String concept) {
