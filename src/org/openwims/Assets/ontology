@@ -1,0 +1,44 @@
+@all				:everything
+ @event				:an occurrence between agents and themes
+  @mental-event			:thinking about something; devising, plotting
+   @imagine			:dreaming, imagining or manifesting something in your mind
+  @physical-event		:something happening in the physical space
+   @reaction			:an autonomous physical reaction occurring
+    @impact			:absorption of force from an external object
+    @push			:an object being moved by the force of another
+    @pull			:an object being towed by the force of another
+   @biological-event		:biological functions that occur both consciously and subconsciously; metabolic;
+    @consume			:to eat, drink or ingest for energy
+    @contract			:a host acquires unwanted parasites
+   @human-event			:anything a human does consciously
+    @sporting-event		:competitive gaming events; teams
+     @score			:to score a point or goal
+    @social-event		:interaction between two or more humans
+     @communication-event	:speaking, mailing, chatting - any event where humans exchange information, talk, mention, elaborate
+    @violence-event		:humans causing destruction or damage to anything; destroy, break
+     @attack			:humans striving to cause damage to other humans; batter, strike, hurt, wound
+     @murder			:humans intending to kill other humans
+ @object			:any thing (tangible or intangible)
+  @physical-object		:any object that can be physically interacted with in the real world
+   @living-object		:any object that is alive; genus
+    @animal			:members of the animal kingdom; living; species
+     @human			:human beings; homo sapiens; person; people; someone; member
+    @plant			:members of the plant kingdom
+   @location-object		:objects anchored in space
+    @geographic-object          :naturally occurring objects acting as a location or space; country; state; province; territory
+    @building                   :constructed location designed for a specific purpose
+   @artifact			:an object constructed by humans
+    @tool			:artifacts to help perform a function; device; 
+     @container			:artifacts to hold other physical objects; holds; contains
+     @weapon                    :artifacts to cause harm to humans
+    @garment			:artifacts to cover the body; clothing
+    @entertainment-artifact	:artifacts for entertainment; toy; game;
+    @media-artifact             :artifacts to hold data; tape; cd; dvd; disk; book; magazine
+   @material                    :raw refined or unrefined materials; chemical; wood; stone; resource
+  @mental-object		:intangible constructs of the mind; condition; state;
+   @thought			:a single conception in the mind about a topic
+  @abstract-object		:intangible objects that do not reside in the mind
+   @temporal-object             :objects representing time; decades, years, days, weeks, months, minutes, seconds, hours
+   @mathematical-object         :numbers, equations, cardinals, sums, products and other mathematical representations
+   @digital-object		:objects realized in a digital or computational realm; electronic; electrical; powered; 
+   @social-object               :non-physical groupings of people; tribe; family; coworkers; ethnic groups; societies
