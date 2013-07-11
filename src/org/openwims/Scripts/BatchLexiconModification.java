@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
 import org.openwims.Objects.Lexicon.Dependency;
+import org.openwims.Objects.Lexicon.Expectation;
 import org.openwims.Objects.Lexicon.Lexicon;
 import org.openwims.Objects.Lexicon.Meaning;
 
@@ -21,7 +22,7 @@ public class BatchLexiconModification {
     public static void main(String[] args) throws Exception {
         Lexicon.conn();
         
-        HashMap expectations = new HashMap();
+        LinkedList<Expectation> expectations = new LinkedList();
         Dependency dep = new Dependency("dobj", "SELF", "theme", expectations);
         
         LinkedList<Dependency> deps = new LinkedList();
@@ -78,10 +79,9 @@ public class BatchLexiconModification {
         //System.out.println(query);
         stmt.execute(query);
         
-        for (String specification : dependency.expectations.keySet()) {
-            String expectation = dependency.expectations.get(specification);
+        for (Expectation expectation : dependency.expectations) {
             String depID = "(SELECT max(id) FROM dependencies)";
-            query = "INSERT INTO specifications (dependency, spec, expectation) VALUES (" + depID + ", '" + specification + "', '" + expectation + "');";
+            query = "INSERT INTO specifications (dependency, spec, expectation) VALUES (" + depID + ", '" + expectation.getSpecification() + "', '" + expectation.getExpectation() + "');";
             
             //System.out.println(query);
             stmt.execute(query);

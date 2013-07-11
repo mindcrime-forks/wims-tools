@@ -8,7 +8,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.LinkedList;
-import org.openwims.Objects.Ontology.Ontology.Ancestry;
 import org.openwims.WIMGlobals;
 
 /**
@@ -31,12 +30,12 @@ public class ConvertToPSQL {
         
         
         
-        for (String concept : WIMGlobals.ontology().concepts()) {
-            Ancestry a = WIMGlobals.ontology().ancestors(concept);
-            for (LinkedList<String> path : a.paths) {
-                bw.write("INSERT INTO ontology (concept, parent, definition) VALUES ('" + concept.replaceAll("'", "''") + "', '" + path.toString().replaceAll("'", "''") + "', '');\n");
-            }
-        }
+//        for (String concept : WIMGlobals.ontology().concepts()) {
+//            Ancestry a = WIMGlobals.ontology().ancestors(concept);
+//            for (LinkedList<String> path : a.paths) {
+//                bw.write("INSERT INTO ontology (concept, parent, definition) VALUES ('" + concept.replaceAll("'", "''") + "', '" + path.toString().replaceAll("'", "''") + "', '');\n");
+//            }
+//        }
         
         
         

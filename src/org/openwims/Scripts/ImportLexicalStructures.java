@@ -10,10 +10,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.LinkedList;
 import org.openwims.Objects.Lexicon.Dependency;
 import org.openwims.Objects.Lexicon.DependencySet;
+import org.openwims.Objects.Lexicon.Expectation;
 import org.openwims.Objects.Lexicon.Meaning;
 import org.openwims.WIMGlobals;
 
@@ -25,7 +25,7 @@ public class ImportLexicalStructures {
     
     public static void main(String[] args) throws Exception {
         
-        InputStream in = ImportLexicalStructures.class.getResourceAsStream("/org/openwims/Assets/prepositions");
+        InputStream in = ImportLexicalStructures.class.getResourceAsStream("/org/openwims/Assets/determiners");
         BufferedReader input = new BufferedReader(new InputStreamReader(in));
 
         String line = null;
@@ -72,7 +72,7 @@ public class ImportLexicalStructures {
                     String dep = parts[0];
                     line = parts[1].replaceAll("\\}", "");
                     
-                    Dependency dependency = new Dependency(type, gov, dep, new HashMap());
+                    Dependency dependency = new Dependency(type, gov, dep, new LinkedList());
                     
                     parts = line.split(", ");
                     for (String spec : parts) {
@@ -80,7 +80,7 @@ public class ImportLexicalStructures {
                         String specification = innerparts[0];
                         String expectation = innerparts[1].replaceAll("'", "");
                         
-                        dependency.expectations.put(specification, expectation);
+                        dependency.expectations.add(new Expectation(specification, expectation));
                     }
                     
                     set.dependencies.add(dependency);
@@ -92,22 +92,22 @@ public class ImportLexicalStructures {
         }
         
         
-        File file = new File("/Users/jesse/Desktop/prepositions.dump.sql");
+        File file = new File("/Users/jesseenglish/Desktop/determiners.dump.sql");
  
         // if file doesnt exists, then create it
         if (!file.exists()) {
-                file.createNewFile();
+            file.createNewFile();
         }
  
         FileWriter fw = new FileWriter(file.getAbsoluteFile());
         BufferedWriter bw = new BufferedWriter(fw);
         
-        for (String verb : WIMGlobals.lexicon().verbs()) {
+        for (String noun : WIMGlobals.lexicon().nouns()) {
                 
-            System.out.println(verb);
+            System.out.println(noun);
             
             for (DependencySet set : sets) {
-                String query = "INSERT INTO structures (sense, series, label, optional) VALUES ('" + verb + "', 1, '" + set.label + "', '" + set.optional + "');\n";
+                String query = "INSERT INTO structures (sense, series, label, optional) VALUES ('" + noun + "', 1, '" + set.label + "', '" + set.optional + "');\n";
                 bw.write(query);
                 
                 for (Dependency dependency : set.dependencies) {
@@ -115,7 +115,7 @@ public class ImportLexicalStructures {
                 }
                 
                 for (Meaning meaning : set.meanings) {
-                    query = "INSERT INTO meanings (sense, target, relation, wim, structure) VALUES ('" + verb + "', '" + meaning.target + "', '" + meaning.relation + "', '" + meaning.wim + "', (SELECT max(id) FROM structures));\n";
+                    query = "INSERT INTO meanings (sense, target, relation, wim, structure) VALUES ('" + noun + "', '" + meaning.target + "', '" + meaning.relation + "', '" + meaning.wim + "', (SELECT max(id) FROM structures));\n";
                     bw.write(query);
                 }
                
@@ -131,10 +131,9 @@ public class ImportLexicalStructures {
         String query = "INSERT INTO dependencies (struct, dependency, governor, dependent) VALUES (" + structID + ", '" + dependency.type + "', '" + dependency.governor + "', '" + dependency.dependent + "');\n";
         bw.write(query);
         
-        for (String specification : dependency.expectations.keySet()) {
-            String expectation = dependency.expectations.get(specification);
+        for (Expectation expectation : dependency.expectations) {
             String depID = "(SELECT max(id) FROM dependencies)";
-            query = "INSERT INTO specifications (dependency, spec, expectation) VALUES (" + depID + ", '" + specification + "', '" + expectation + "');\n";
+            query = "INSERT INTO specifications (dependency, spec, expectation) VALUES (" + depID + ", '" + expectation.getSpecification() + "', '" + expectation.getExpectation() + "');\n";
             bw.write(query);
         }
     }

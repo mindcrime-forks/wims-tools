@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
 import org.openwims.Objects.Lexicon.Dependency;
+import org.openwims.Objects.Lexicon.Expectation;
 import org.openwims.Objects.Lexicon.Meaning;
 
 /**
@@ -234,7 +235,7 @@ public class ImportWordNet {
                     
                     String dep = depParts[0];
                     
-                    Dependency dependency = new Dependency(type, gov, dep, new HashMap());
+                    Dependency dependency = new Dependency(type, gov, dep, new LinkedList());
                     
                     for (int i = 1; i < depParts.length; i++) {
                         String spec = depParts[i];
@@ -242,7 +243,7 @@ public class ImportWordNet {
                         String specification = specParts[0];
                         String expectation = specParts[1];
                         
-                        dependency.expectations.put(specification, expectation);
+                        dependency.expectations.add(new Expectation(specification, expectation));
                     }
                     
                     template.dependencies.add(dependency);
@@ -292,8 +293,9 @@ public class ImportWordNet {
                         + dependency.type.replaceAll("'", "''") + "', '"
                         + dependency.governor.replaceAll("'", "''") + "', '"
                         + dependency.dependent.replaceAll("'", "''") + "');\n";
-                for (String specification : dependency.expectations.keySet()) {
-                    out += "INSERT INTO specifications (id, struct, spec, expectation) VALUES (" + specID + ", " + depID + ", '" + specification.replaceAll("'", "''") + "', '" + dependency.expectations.get(specification).replaceAll("'", "''") + "');\n";
+                
+                for (Expectation expectation : dependency.expectations) {
+                    out += "INSERT INTO specifications (id, struct, spec, expectation) VALUES (" + specID + ", " + depID + ", '" + expectation.getSpecification().replaceAll("'", "''") + "', '" + expectation.getExpectation().replaceAll("'", "''") + "');\n";
                     specID++;
                 }
                 depID++;
